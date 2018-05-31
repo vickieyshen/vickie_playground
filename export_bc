@@ -1,0 +1,15 @@
+#!/bin/sh
+# export a build config for an app in the current project
+
+set -e
+
+if test $# -ne 1
+then
+    echo "Usage: $0 appname"
+    echo "Example: $0 django-ex"
+    exit 1
+fi
+
+
+echo "exporting buildconfig for app $1"
+oc export buildconfig $1 -o json > buildconfig-$1.json

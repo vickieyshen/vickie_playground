@@ -1,0 +1,23 @@
+#!/bin/sh
+# cerate a new project, import a build config and start a build
+set -e
+
+if test $# -ne 2
+then
+    echo "Usage: $0 project-name buildconfig-filename"
+    exit 1
+fi
+
+# get app name from buildconfig
+APP=$(jq .metadata.name  -r < $2)
+
+echo "app name: $APP"
+
+echo "create project"
+oc new-project $1
+
+echo "create buildconfig"
+oc create -f $2
+
+echo "start build"
+oc start-build $APP
